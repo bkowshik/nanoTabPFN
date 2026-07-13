@@ -169,9 +169,7 @@ class NanoTabPFNClassifier():
 
     def fit(self, X_train: np.array, y_train: np.array):
         """ stores X_train and y_train for later use, also computes the highest class number occuring in num_classes """
-        # z-score features to match the pretraining prior, stats from train split only to avoid leakage
-        self.mean, self.std = X_train.mean(axis=0), X_train.std(axis=0) + 1e-8
-        self.X_train = (X_train - self.mean) / self.std
+        self.X_train = X_train
         self.y_train = y_train
         self.num_classes = max(set(y_train))+1
 
@@ -180,7 +178,7 @@ class NanoTabPFNClassifier():
         creates (x,y), runs it through our PyTorch Model, cuts off the classes that didn't appear in the training data
         and applies softmax to get the probabilities
         """
-        x = np.concatenate((self.X_train, (X_test - self.mean) / self.std))
+        x = np.concatenate((self.X_train, X_test))
         y = self.y_train
         with torch.no_grad():
             x = torch.from_numpy(x).unsqueeze(0).to(torch.float).to(self.device)  # introduce batch size 1
