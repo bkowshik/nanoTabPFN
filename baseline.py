@@ -3,6 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
@@ -11,6 +12,7 @@ from sklearn.tree import DecisionTreeClassifier
 X_train, X_test, y_train, y_test = train_test_split(*load_breast_cancer(return_X_y=True), test_size=0.5, random_state=0)
 
 models = {
+    "K-nearest neighbors": KNeighborsClassifier(),
     "Decision tree": DecisionTreeClassifier(random_state=0),
     "Random forest": RandomForestClassifier(random_state=0),
     "Logistic regression": make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000)),
