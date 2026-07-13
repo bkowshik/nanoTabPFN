@@ -26,13 +26,8 @@ def get_default_device():
     if torch.cuda.is_available(): device = "cuda"
     return device
 
-def load_phoneme():
-    """phoneme (OpenML 1489): 5404 rows x 5 numeric features, binary, nonlinear."""
-    X, y = fetch_openml(data_id=1489, return_X_y=True, as_frame=False, parser="liac-arff")
-    return X, (y == "2").astype(int)
-
 datasets = []
-datasets.append(train_test_split(*load_phoneme(), test_size=0.5, random_state=0))
+datasets.append(train_test_split(*load_breast_cancer(return_X_y=True), test_size=0.5, random_state=0))
 
 def eval(classifier):
     scores = {
