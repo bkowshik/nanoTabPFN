@@ -177,14 +177,18 @@ class PriorDumpDataLoader(DataLoader):
 
 if __name__ == "__main__":
     device = get_default_device()
-    model = NanoTabPFNModel(
+    config = dict(
         embedding_size=96,
         num_attention_heads=4,
         mlp_hidden_size=192,
         num_layers=3,
         num_outputs=2
     )
+    model = NanoTabPFNModel(**config)
     prior = PriorDumpDataLoader("300k_150x5_2.h5", num_steps=2500, batch_size=32, device=device)
     model, history = train(model, prior, lr=4e-3, steps_per_eval=25)
+    # config travels with the weights so evaluate.py can rebuild the model
+    torch.save({"config": config, "state_dict": model.state_dict()}, "model.pt")
+    print("Saved checkpoint to model.pt")
     print("Final evaluation:")
     print(eval(NanoTabPFNClassifier(model, device)))
