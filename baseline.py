@@ -1,4 +1,4 @@
-from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import fetch_openml
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, roc_auc_score
@@ -8,8 +8,11 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 
-# same split as the eval in train.py
-X_train, X_test, y_train, y_test = train_test_split(*load_breast_cancer(return_X_y=True), test_size=0.5, random_state=0)
+# same dataset and split as the eval in train.py
+# phoneme (OpenML 1489): 5404 rows x 5 numeric features, binary, nonlinear
+X, y = fetch_openml(data_id=1489, return_X_y=True, as_frame=False, parser="liac-arff")
+y = (y == "2").astype(int)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
 
 models = {
     "K-nearest neighbors": KNeighborsClassifier(),
