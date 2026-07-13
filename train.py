@@ -31,8 +31,13 @@ def load_phoneme():
     X, y = fetch_openml(data_id=1489, return_X_y=True, as_frame=False, parser="liac-arff")
     return X, (y == "2").astype(int)
 
+def load_spambase():
+    """spambase (OpenML 44): 4601 rows x 57 numeric features, binary, heavy-tailed."""
+    X, y = fetch_openml(data_id=44, return_X_y=True, as_frame=False, parser="liac-arff")
+    return X, (y == "1").astype(int)
+
 datasets = []
-datasets.append(train_test_split(*load_phoneme(), test_size=0.5, random_state=0))
+datasets.append(train_test_split(*load_spambase(), test_size=0.5, random_state=0))
 
 def eval(classifier):
     scores = {
