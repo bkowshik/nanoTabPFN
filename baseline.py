@@ -9,9 +9,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 
 # same dataset and split as the eval in train.py
-# spambase (OpenML 44): 4601 rows x 57 numeric features, binary, heavy-tailed
-X, y = fetch_openml(data_id=44, return_X_y=True, as_frame=False, parser="liac-arff")
-y = (y == "1").astype(int)
+# phoneme (OpenML 1489): 5404 rows x 5 numeric features, binary, nonlinear
+X, y = fetch_openml(data_id=1489, return_X_y=True, as_frame=False, parser="liac-arff")
+y = (y == "2").astype(int)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
 
 models = {
